@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "639342078385",
+    "project_id": "newsapp-skripsi-aa03b",
+    "storage_bucket": "newsapp-skripsi-aa03b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639342078385:android:fb2587891e6a7f2da57590",
+        "android_client_info": {
+          "package_name": "com.faiqaryadewangga.newsapp_coil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ9JQty4YOhZi-vD_WTDyH-wJmR7yLIaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
