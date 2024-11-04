@@ -21,6 +21,12 @@ class SearchViewModel : ViewModel() {
     private val _news = MutableStateFlow<List<News>>(emptyList())
     val news = _news.asStateFlow()
 
+    private val _popularNews = MutableStateFlow<List<News>>(emptyList())
+    val popularNews = _popularNews.asStateFlow()
+
+    private val _otherNews = MutableStateFlow<List<News>>(emptyList())
+    val otherNews = _otherNews.asStateFlow()
+
     private val _errorMessage = MutableStateFlow("")
     val errorMessage = _errorMessage.asStateFlow()
 
@@ -28,25 +34,46 @@ class SearchViewModel : ViewModel() {
         _query.value = newQuery
     }
 
+    private fun getNews() {
+        viewModelScope.launch {
+            try {
+                val firestore = FirebaseFirestore.getInstance()
+                val newsDocs = firestore.collection("news").get().await()
+
+                val newsList = newsDocs.mapNotNull { it.toNews() }
+
+                _popularNews.value = newsList.filter { it.isRecommended }.take(5)
+
+                val remainingNews = newsList.filterNot { popularNews.value.contains(it) }
+                _otherNews.value = remainingNews
+
+            } catch (e: FirebaseFirestoreException) {
+                _errorMessage.value = e.message ?: "Terjadi kesalahan"
+            }
+        }
+    }
+
     fun searchNews() {
         viewModelScope.launch {
             try {
-                val newsDocs = if (query.value.isBlank()) {
-                    firestore.collection("news").get().await()
-                } else {
-                    firestore.collection("news")
-                        .whereGreaterThanOrEqualTo("title", query)
-                        .whereLessThanOrEqualTo("title", query)
-                        .get()
-                        .await()
-                }
+                val newsDocs = firestore
+                    .collection("news")
+                    .get()
+                    .await()
 
-                val newsList = newsDocs.mapNotNull { it.toNews() }
+                val newsList = newsDocs
+                    .mapNotNull { it.toNews() }
+                    .filter { it.title.contains(query.value, ignoreCase = true) }
+
                 _news.value = newsList
 
             } catch (e: FirebaseFirestoreException) {
                 _errorMessage.value = e.message ?: "Terjadi Kesalahan"
             }
         }
+    }
+
+    init {
+        getNews()
     }
 }

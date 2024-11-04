@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -42,11 +41,11 @@ fun HomeScreen(navController: NavController) {
     val headlineNews by viewModel.headlineNews.collectAsStateWithLifecycle()
     val latestNews by viewModel.latestNews.collectAsStateWithLifecycle()
     val otherNews by viewModel.otherNews.collectAsStateWithLifecycle()
-    LocalConfiguration.current.screenWidthDp.dp
     val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle()
 
     Scaffold {
         val topPadding = it.calculateTopPadding()
+        val bottomPadding = it.calculateBottomPadding()
 
         Surface(
             modifier = Modifier
@@ -68,7 +67,7 @@ fun HomeScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.White)
-                        .padding(top = topPadding)
+                        .padding(top = topPadding, bottom = bottomPadding + 72.dp)
                 ) {
 
                     // Headline News
@@ -156,7 +155,7 @@ fun HomeScreen(navController: NavController) {
                     // Other news
                     item {
                         Text(
-                            "Berita Terbaru",
+                            "Daftar Berita",
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 fontFamily = FontFamily(Font(R.font.poppins_bold)),

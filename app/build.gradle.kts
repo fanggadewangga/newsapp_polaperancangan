@@ -76,4 +76,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.firestore)
     implementation(libs.firebase.firestore.ktx)
+
+    implementation(libs.material)
+    implementation(libs.androidx.compose.material)
 }
