@@ -67,7 +67,7 @@ class SearchViewModel : ViewModel() {
 
                 _news.value = newsList
 
-            } catch (e: FirebaseFirestoreException) {
+            } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Terjadi Kesalahan"
             }
         }

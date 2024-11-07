@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.faiqaryadewangga.newsapp_coil.data.model.News
 import com.faiqaryadewangga.newsapp_coil.util.toNews
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -31,7 +30,7 @@ class HomeViewModel : ViewModel() {
                 val firestore = FirebaseFirestore.getInstance()
                 val newsDocs = firestore.collection("news").get().await()
 
-                val newsList = newsDocs.mapNotNull { it.toNews() }
+                val newsList = newsDocs.map { it.toNews() }
 
                 _headlineNews.value = newsList.filter { it.isRecommended }.take(3)
 
@@ -39,7 +38,7 @@ class HomeViewModel : ViewModel() {
                 _latestNews.value = remainingNews.take(4)
                 _otherNews.value = remainingNews.drop(4)
 
-            } catch (e: FirebaseFirestoreException) {
+            } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Terjadi kesalahan"
             }
         }
