@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.faiqaryadewangga.newsapp_coil"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.faiqaryadewangga.newsapp_coil"
@@ -29,6 +29,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
         }
     }
     compileOptions {
@@ -79,4 +85,6 @@ dependencies {
 
     implementation(libs.material)
     implementation(libs.androidx.compose.material)
+
+    androidTestImplementation(libs.androidx.navigation.testing)
 }

@@ -21,7 +21,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -83,8 +86,12 @@ fun AppNavigation() {
                 FloatingActionButton(
                     shape = CircleShape,
                     backgroundColor = Color(0xFF283C73),
-                    modifier = Modifier.size(48.dp),
-                    onClick = { navController.navigate("search") }
+                    onClick = { navController.navigate("search") },
+                    modifier = Modifier
+                        .size(48.dp)
+                        .testTag("Search icon")
+                        .semantics { contentDescription = "Search icon" }
+                    ,
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_search),

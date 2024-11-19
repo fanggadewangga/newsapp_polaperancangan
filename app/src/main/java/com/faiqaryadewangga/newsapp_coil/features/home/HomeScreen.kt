@@ -20,6 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -68,6 +71,8 @@ fun HomeScreen(navController: NavController) {
                         .fillMaxWidth()
                         .background(Color.White)
                         .padding(top = topPadding, bottom = bottomPadding + 72.dp)
+                        .testTag("Home content")
+                        .semantics { contentDescription = "Home content" }
                 ) {
 
                     // Headline News
@@ -78,6 +83,8 @@ fun HomeScreen(navController: NavController) {
                                 .fillMaxWidth()
                                 .background(Color.White)
                                 .padding(horizontal = 16.dp, vertical = 24.dp)
+                                .testTag("Headline news")
+                                .semantics { contentDescription = "Headline news" }
                         ) {
                             items(headlineNews) { news ->
                                 HeadlineNewsItem(
@@ -123,6 +130,8 @@ fun HomeScreen(navController: NavController) {
                                 .fillMaxWidth()
                                 .padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
                                 .background(Color.White)
+                                .testTag("Latest news")
+                                .semantics { contentDescription = "Latest news" }
                         ) {
                             items(latestNews) { news ->
                                 LatestNewsItem(
@@ -176,6 +185,8 @@ fun HomeScreen(navController: NavController) {
                                 .fillMaxWidth()
                                 .height(110.dp)
                                 .padding(horizontal = 16.dp)
+                                .testTag("Other news")
+                                .semantics { contentDescription = "Other news" }
                         )
                         Spacer(Modifier.height(8.dp))
                     }

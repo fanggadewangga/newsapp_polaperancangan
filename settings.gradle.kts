@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "newsapp_coil"
 include(":app")
- 
+include(":benchmark")
