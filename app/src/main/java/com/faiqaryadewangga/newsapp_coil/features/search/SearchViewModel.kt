@@ -2,6 +2,8 @@ package com.faiqaryadewangga.newsapp_coil.features.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.faiqaryadewangga.newsapp_coil.data.datasource.remote.RemoteDatasource
+import com.faiqaryadewangga.newsapp_coil.data.datasource.remote.RemoteDatasourceFactory
 import com.faiqaryadewangga.newsapp_coil.data.model.News
 import com.faiqaryadewangga.newsapp_coil.util.toNews
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,7 +15,9 @@ import kotlinx.coroutines.tasks.await
 
 class SearchViewModel : ViewModel() {
 
-    private val firestore = FirebaseFirestore.getInstance()
+    private val remoteDatasource by lazy {
+        RemoteDatasourceFactory().createDatasource() as RemoteDatasource
+    }
 
     private val _query = MutableStateFlow("")
     val query = _query.asStateFlow()
@@ -37,10 +41,7 @@ class SearchViewModel : ViewModel() {
     private fun getNews() {
         viewModelScope.launch {
             try {
-                val firestore = FirebaseFirestore.getInstance()
-                val newsDocs = firestore.collection("news").get().await()
-
-                val newsList = newsDocs.mapNotNull { it.toNews() }
+                val newsList = remoteDatasource.getNews()
 
                 _popularNews.value = newsList.filter { it.isRecommended }.take(5)
 
@@ -56,17 +57,8 @@ class SearchViewModel : ViewModel() {
     fun searchNews() {
         viewModelScope.launch {
             try {
-                val newsDocs = firestore
-                    .collection("news")
-                    .get()
-                    .await()
-
-                val newsList = newsDocs
-                    .mapNotNull { it.toNews() }
-                    .filter { it.title.contains(query.value, ignoreCase = true) }
-
+                val newsList = remoteDatasource.searchNews(query.value)
                 _news.value = newsList
-
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Terjadi Kesalahan"
             }

@@ -6,6 +6,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
     id("com.android.library") version "7.4.2" apply false
     alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 buildscript {

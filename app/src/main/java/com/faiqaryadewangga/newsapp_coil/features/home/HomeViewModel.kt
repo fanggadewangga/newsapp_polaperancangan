@@ -2,6 +2,8 @@ package com.faiqaryadewangga.newsapp_coil.features.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.faiqaryadewangga.newsapp_coil.data.datasource.remote.RemoteDatasource
+import com.faiqaryadewangga.newsapp_coil.data.datasource.remote.RemoteDatasourceFactory
 import com.faiqaryadewangga.newsapp_coil.data.model.News
 import com.faiqaryadewangga.newsapp_coil.util.toNews
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,6 +13,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class HomeViewModel : ViewModel() {
+
+    private val remoteDatasource by lazy {
+        RemoteDatasourceFactory().createDatasource() as RemoteDatasource
+    }
 
     private val _headlineNews = MutableStateFlow<List<News>>(emptyList())
     val headlineNews = _headlineNews.asStateFlow()
@@ -27,14 +33,12 @@ class HomeViewModel : ViewModel() {
     private fun getNews() {
         viewModelScope.launch {
             try {
-                val firestore = FirebaseFirestore.getInstance()
-                val newsDocs = firestore.collection("news").get().await()
-
-                val newsList = newsDocs.map { it.toNews() }
+                val newsList = remoteDatasource.getNews()
 
                 _headlineNews.value = newsList.filter { it.isRecommended }.take(3)
 
                 val remainingNews = newsList.filterNot { headlineNews.value.contains(it) }
+
                 _latestNews.value = remainingNews.take(4)
                 _otherNews.value = remainingNews.drop(4)
 

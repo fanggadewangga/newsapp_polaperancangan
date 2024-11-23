@@ -33,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import com.faiqaryadewangga.newsapp_coil.R
 import com.faiqaryadewangga.newsapp_coil.components.AppNavigationBar
 import com.faiqaryadewangga.newsapp_coil.data.model.NavigationBarItem
+import com.faiqaryadewangga.newsapp_coil.features.bookmarks.BookmarksScreen
 import com.faiqaryadewangga.newsapp_coil.features.detail.NewsDetailScreen
 import com.faiqaryadewangga.newsapp_coil.features.home.HomeScreen
 import com.faiqaryadewangga.newsapp_coil.features.search.SearchScreen
@@ -44,9 +45,10 @@ fun AppNavigation() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val mainScreens = listOf(NavigationBarItem.Home, NavigationBarItem.Profile)
-    val isShowNavbar = mainScreens.any { it.route == currentDestination?.route} || currentDestination?.route == Route.Search.route
-    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val mainScreens = listOf(NavigationBarItem.Home, NavigationBarItem.Bookmarks)
+    val isShowNavbar =
+        mainScreens.any { it.route == currentDestination?.route } || currentDestination?.route == Route.Search.route
+    LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
 
     Scaffold(
@@ -90,8 +92,7 @@ fun AppNavigation() {
                     modifier = Modifier
                         .size(48.dp)
                         .testTag("Search icon")
-                        .semantics { contentDescription = "Search icon" }
-                    ,
+                        .semantics { contentDescription = "Search icon" },
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_search),
@@ -121,8 +122,8 @@ fun AppNavigation() {
                 }
             }
 
-            composable(Route.Profile.route) {
-
+            composable(Route.Bookmarks.route) {
+                BookmarksScreen(navController)
             }
         }
     }

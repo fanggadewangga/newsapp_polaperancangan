@@ -47,15 +47,16 @@ fun AppNavigationBar(
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(item.icon),
+                            painter =  if(isSelected)
+                                painterResource(item.selectedIcon)
+                            else
+                                painterResource(item.unselectedIcon),
                             contentDescription = null,
-                            tint = if (isSelected) Color(0xFF283C73) else Color.LightGray,
                             modifier = Modifier.size(24.dp)
                         )
                     },
                     label = {
                         val textColor = if (isSelected) Color(0xFF283C73) else Color.LightGray
-
                         if (item.title != null)
                             Text(
                                 text = item.title,
