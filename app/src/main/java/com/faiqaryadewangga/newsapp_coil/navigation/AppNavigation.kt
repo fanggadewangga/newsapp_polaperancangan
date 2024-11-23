@@ -36,7 +36,9 @@ import com.faiqaryadewangga.newsapp_coil.data.model.NavigationBarItem
 import com.faiqaryadewangga.newsapp_coil.features.bookmarks.BookmarksScreen
 import com.faiqaryadewangga.newsapp_coil.features.detail.NewsDetailScreen
 import com.faiqaryadewangga.newsapp_coil.features.home.HomeScreen
+import com.faiqaryadewangga.newsapp_coil.features.onboard.OnboardScreen
 import com.faiqaryadewangga.newsapp_coil.features.search.SearchScreen
+import com.faiqaryadewangga.newsapp_coil.features.splash.SplashScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -105,8 +107,16 @@ fun AppNavigation() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = Route.Home.route,
+            startDestination = Route.Splash.route,
         ) {
+            composable(Route.Splash.route) {
+                SplashScreen(navController)
+            }
+
+            composable(Route.Onboard.route) {
+                OnboardScreen(navController)
+            }
+
             composable(Route.Home.route) {
                 HomeScreen(navController)
             }

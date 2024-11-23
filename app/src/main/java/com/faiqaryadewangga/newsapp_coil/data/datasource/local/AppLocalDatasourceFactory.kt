@@ -4,8 +4,8 @@ import android.content.Context
 import com.faiqaryadewangga.newsapp_coil.data.datasource.BaseDatasource
 import com.faiqaryadewangga.newsapp_coil.data.datasource.DatasourceFactory
 
-class LocalDatasourceFactory(private val context: Context): DatasourceFactory() {
+class AppLocalDatasourceFactory(private val context: Context) : DatasourceFactory() {
     override fun createDatasource(): BaseDatasource {
-        return LocalDatasource(context)
+        return AppLocalDatasource(context)
     }
 }

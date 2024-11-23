@@ -1,6 +1,8 @@
 package com.faiqaryadewangga.newsapp_coil.navigation
 
 sealed class Route(val route: String) {
+    data object Splash: Route("splash")
+    data object Onboard: Route("onboard")
     data object Home: Route("home")
     data object Search: Route("search")
     data object NewsDetail : Route("detail/{newsId}") {

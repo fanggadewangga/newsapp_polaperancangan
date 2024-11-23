@@ -15,9 +15,8 @@ import kotlinx.coroutines.tasks.await
 
 class SearchViewModel : ViewModel() {
 
-    private val remoteDatasource by lazy {
-        RemoteDatasourceFactory().createDatasource() as RemoteDatasource
-    }
+    private val remoteDatasourceFactory: RemoteDatasourceFactory = RemoteDatasourceFactory()
+    private val remoteDatasource: RemoteDatasource = remoteDatasourceFactory.createDatasource() as RemoteDatasource
 
     private val _query = MutableStateFlow("")
     val query = _query.asStateFlow()
@@ -49,7 +48,9 @@ class SearchViewModel : ViewModel() {
                 _otherNews.value = remainingNews
 
             } catch (e: FirebaseFirestoreException) {
-                _errorMessage.value = e.message ?: "Terjadi kesalahan"
+                val errorMessage = e.message ?: "Terjadi kesalahan"
+                _errorMessage.value = errorMessage
+                remoteDatasource.onError(errorMessage)
             }
         }
     }
@@ -60,7 +61,9 @@ class SearchViewModel : ViewModel() {
                 val newsList = remoteDatasource.searchNews(query.value)
                 _news.value = newsList
             } catch (e: Exception) {
-                _errorMessage.value = e.message ?: "Terjadi Kesalahan"
+                val errorMessage = e.message ?: "Terjadi kesalahan"
+                _errorMessage.value = errorMessage
+                remoteDatasource.onError(errorMessage)
             }
         }
     }

@@ -88,6 +88,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.compose.material)
 
+    implementation(libs.androidx.datastore.preferences)
+
     androidTestImplementation(libs.androidx.navigation.testing)
 
     // Room

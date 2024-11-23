@@ -7,7 +7,7 @@ import com.faiqaryadewangga.newsapp_coil.data.model.News
 import com.faiqaryadewangga.newsapp_coil.data.service.room.NewsDao
 import com.faiqaryadewangga.newsapp_coil.data.service.room.NewsDb
 
-class LocalDatasource(private val context: Context) : BaseDatasource {
+class NewsLocalDatasource(private val context: Context) : BaseDatasource {
 
     private val newsDb: NewsDb by lazy { NewsDb.getInstance(context) }
     private val newsDao: NewsDao by lazy { newsDb.newsDao }

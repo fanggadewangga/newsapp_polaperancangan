@@ -5,18 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.faiqaryadewangga.newsapp_coil.data.datasource.remote.RemoteDatasource
 import com.faiqaryadewangga.newsapp_coil.data.datasource.remote.RemoteDatasourceFactory
 import com.faiqaryadewangga.newsapp_coil.data.model.News
-import com.faiqaryadewangga.newsapp_coil.util.toNews
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class HomeViewModel : ViewModel() {
 
-    private val remoteDatasource by lazy {
-        RemoteDatasourceFactory().createDatasource() as RemoteDatasource
-    }
+    private val remoteDatasourceFactory: RemoteDatasourceFactory = RemoteDatasourceFactory()
+    private val remoteDatasource: RemoteDatasource = remoteDatasourceFactory.createDatasource() as RemoteDatasource
 
     private val _headlineNews = MutableStateFlow<List<News>>(emptyList())
     val headlineNews = _headlineNews.asStateFlow()
@@ -43,7 +39,9 @@ class HomeViewModel : ViewModel() {
                 _otherNews.value = remainingNews.drop(4)
 
             } catch (e: Exception) {
-                _errorMessage.value = e.message ?: "Terjadi kesalahan"
+                val errorMessage = e.message ?: "Terjadi kesalahan"
+                _errorMessage.value = errorMessage
+                remoteDatasource.onError(errorMessage)
             }
         }
     }

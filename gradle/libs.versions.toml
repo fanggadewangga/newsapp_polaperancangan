@@ -47,6 +47,9 @@ uiTestJunit4Android = "1.7.5"
 # Room
 room = "2.6.1"
 
+# Datastore
+datastore = "1.1.1"
+
 
 
 [libraries]
@@ -92,6 +95,9 @@ androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-te
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
+# Datastore
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
