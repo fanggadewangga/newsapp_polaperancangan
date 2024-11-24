@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class FirebaseService private constructor() {
 
-    val firestore by lazy { FirebaseFirestore.getInstance() }
+    private val firestore by lazy { FirebaseFirestore.getInstance() }
 
     companion object {
         @Volatile
@@ -17,7 +17,8 @@ class FirebaseService private constructor() {
         }
     }
 
-    fun getCollection(collectionName: String) = firestore.collection(collectionName)
+    fun getCollection(collectionName: String) =
+        firestore.collection(collectionName)
     fun getDocument(collectionName: String, documentId: String) =
         firestore.collection(collectionName).document(documentId)
 }
